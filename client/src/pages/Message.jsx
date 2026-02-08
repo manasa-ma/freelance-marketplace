@@ -48,7 +48,7 @@ const Message = () => {
 
     try {
       // Save to Database
-      await axios.post(`http://localhost:5000/api/messages`, messageData, { withCredentials: true });
+      await axios.post(`https://freelance-backend-a4ar.onrender.com/api/messages`, messageData, { withCredentials: true });
       
       // Send to Socket (Real-time)
       socket.emit("send_message", messageData);

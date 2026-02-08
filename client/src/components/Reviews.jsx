@@ -19,7 +19,7 @@ const Reviews = ({ gigId }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/reviews", { gigId, desc, star }, { withCredentials: true });
+      await axios.post("https://freelance-backend-a4ar.onrender.com/api/reviews", { gigId, desc, star }, { withCredentials: true });
       alert("Review added!");
       setDesc("");
       fetchReviews();

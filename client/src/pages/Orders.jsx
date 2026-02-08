@@ -22,7 +22,7 @@ const Orders = () => {
   const handleCancel = async (id) => {
   if (window.confirm("Are you sure you want to cancel this order?")) {
     try {
-      await axios.delete(`http://localhost:5000/api/orders/${id}`, {
+      await axios.delete(`https://freelance-backend-a4ar.onrender.com/api/orders/${id}`, {
         withCredentials: true,
       });
       alert("Order cancelled!");

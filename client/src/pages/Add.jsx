@@ -18,7 +18,7 @@ const Add = () => {
   e.preventDefault();
   try {
     // LOOK HERE: You MUST have { withCredentials: true } as the 3rd argument
-    await axios.post("http://localhost:5000/api/gigs", formData, { 
+    await axios.post("https://freelance-backend-a4ar.onrender.com/api/gigs", formData, { 
       withCredentials: true 
     });
     alert("Gig Created Successfully!");

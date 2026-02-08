@@ -33,7 +33,7 @@ const Gig = () => {
 
     try {
       await axios.post(
-        `http://localhost:5000/api/conversations`, 
+        `https://freelance-backend-a4ar.onrender.com/api/conversations`, 
         { to: sellerId }, 
         { withCredentials: true }
       );
@@ -57,7 +57,7 @@ const Gig = () => {
       try {
         // 2. Call the backend to create the order
         await axios.post(
-          `http://localhost:5000/api/orders/${id}`, 
+          `https://freelance-backend-a4ar.onrender.com/api/orders/${id}`, 
           {}, 
           { withCredentials: true }
         );

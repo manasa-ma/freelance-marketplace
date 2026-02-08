@@ -13,7 +13,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post("http://localhost:5000/api/auth/logout");
+      await axios.post("https://freelance-backend-a4ar.onrender.com/api/auth/logout");
       localStorage.setItem("currentUser", null);
       navigate("/");
     } catch (err) {

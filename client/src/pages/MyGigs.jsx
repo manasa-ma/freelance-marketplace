@@ -26,7 +26,7 @@ const MyGigs = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this gig?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/gigs/${id}`, { withCredentials: true });
+        await axios.delete(`https://freelance-backend-a4ar.onrender.com/api/gigs/${id}`, { withCredentials: true });
         fetchMyGigs(); 
       } catch (err) {
         // Change alert to show the actual server message

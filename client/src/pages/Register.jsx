@@ -29,7 +29,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/auth/register", user);
+      await axios.post("https://freelance-backend-a4ar.onrender.com/api/auth/register", user);
       alert("Registration successful! Now please login.");
       navigate("/login");
     } catch (err) {

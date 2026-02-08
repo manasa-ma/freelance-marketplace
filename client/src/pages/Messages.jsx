@@ -25,7 +25,7 @@ const Messages = () => {
   // Function to mark a message as read (Optional but professional)
   const handleRead = async (id) => {
     try {
-      await axios.put(`http://localhost:5000/api/conversations/${id}`, {}, {
+      await axios.put(`https://freelance-backend-a4ar.onrender.com/api/conversations/${id}`, {}, {
         withCredentials: true,
       });
       getConversations(); // Refresh list
