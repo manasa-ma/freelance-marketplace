@@ -12,7 +12,8 @@ const Home = () => {
   const fetchGigs = async (searchQuery = "") => {
     try {
       //const res = await axios.get(`"https://your-backend-name.onrender.com/api/gigs"`);
-      const res = await axios.get("https://freelance-backend-a4ar.onrender.com/api/gigs");
+      //const res = await axios.get("https://freelance-backend-a4ar.onrender.com/api/gigs");
+      const res = await axios.get(`https://freelance-backend-a4ar.onrender.com/api/gigs?search=${searchQuery}`);
       setGigs(res.data);
     } catch (err) { console.log(err); }
   };
