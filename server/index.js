@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const { Server } = require("socket.io");
 const http = require("http");
 
+
 // Routes
 const authRoute = require("./routes/auth.route");
 const gigRoute = require("./routes/gig.route");
