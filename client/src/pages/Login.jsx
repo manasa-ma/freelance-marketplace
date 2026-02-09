@@ -13,7 +13,7 @@ const Login = () => {
     e.preventDefault();
     try {
       // Send login request to backend
-      const res = await axios.post("http://localhost:5000/api/auth/login", { username, password } ,{ withCredentials: true } );
+      const res = await axios.post("https://your-backend-name.onrender.com/api/auth/login", { username, password } ,{ withCredentials: true } );
       
       // Store user data in Local Storage so the browser remembers us
       localStorage.setItem("currentUser", JSON.stringify(res.data));
