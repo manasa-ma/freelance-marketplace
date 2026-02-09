@@ -16,7 +16,7 @@ const Gig = () => {
   useEffect(() => {
     const fetchGig = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/gigs/single/${id}`);
+        const res = await axios.get(`https://freelance-backend-a4ar.onrender.com/api/gigs/single/${id}`);
         setGig(res.data);
         setLoading(false);
       } catch (err) {
