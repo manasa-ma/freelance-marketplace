@@ -4,7 +4,7 @@ import axios from "axios";
 import io from "socket.io-client";
 
 // Connect to the socket server
-const socket = io.connect("http://localhost:5000");
+const socket = io.connect("https://freelance-backend-a4ar.onrender.com");
 
 const Message = () => {
   const { id } = useParams(); // This is the conversationId
@@ -29,7 +29,7 @@ const Message = () => {
 
   const fetchMessages = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/messages/${id}`, { withCredentials: true });
+      const res = await axios.get(`https://freelance-backend-a4ar.onrender.com/api/messages/${id}`, { withCredentials: true });
       setMessages(res.data);
     } catch (err) { console.log(err); }
   };

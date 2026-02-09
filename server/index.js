@@ -20,7 +20,7 @@ const server = http.createServer(app); // 2. Create HTTP Server
 // Socket.io Setup
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "https://freelance-marketplace-alpha.vercel.app",
     methods: ["GET", "POST"],
   },
 });
