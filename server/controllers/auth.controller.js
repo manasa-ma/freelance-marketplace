@@ -35,7 +35,8 @@ exports.login = async (req, res) => {
 
     const { password, ...info } = user._doc;
     res
-      .cookie("accessToken", token, { httpOnly: true })
+      .cookie("accessToken", token, { httpOnly: true, secure: true,      // Required for cross-site cookies
+  sameSite: "none", })
       .status(200)
       .send(info);
   } catch (err) {
@@ -45,8 +46,8 @@ exports.login = async (req, res) => {
 
 // LOGOUT LOGIC
 exports.logout = (req, res) => {
-  res
-    .clearCookie("accessToken", { sameSite: "none", secure: true })
-    .status(200)
-    .send("User has been logged out.");
+  res.clearCookie("accessToken", {
+    secure: true,
+    sameSite: "none",
+  }).status(200).send("User has been logged out.");
 };
