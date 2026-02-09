@@ -8,7 +8,7 @@ const Reviews = ({ gigId }) => {
   const [star, setStar] = useState(5);
 
   const fetchReviews = async () => {
-    const res = await axios.get(`http://localhost:5000/api/reviews/${gigId}`);
+    const res = await axios.get(`https://freelance-backend-a4ar.onrender.com/api/reviews/${gigId}`);
     setReviews(res.data);
   };
 

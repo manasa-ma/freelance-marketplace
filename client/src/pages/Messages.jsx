@@ -6,10 +6,10 @@ const Messages = () => {
   const [conversations, setConversations] = useState([]);
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
-  // Fetch all conversations for the logged-in user
+  // 1. UPDATED URL: Fetch all conversations from Render
   const getConversations = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/conversations`, {
+      const res = await axios.get(`https://freelance-backend-a4ar.onrender.com/api/conversations`, {
         withCredentials: true,
       });
       setConversations(res.data);
@@ -22,7 +22,7 @@ const Messages = () => {
     getConversations();
   }, []);
 
-  // Function to mark a message as read (Optional but professional)
+  // 2. UPDATED URL: Mark message as read on Render
   const handleRead = async (id) => {
     try {
       await axios.put(`https://freelance-backend-a4ar.onrender.com/api/conversations/${id}`, {}, {
@@ -56,11 +56,10 @@ const Messages = () => {
                 key={c.id} 
                 className={`group transition-all ${
                   ((currentUser.isSeller && !c.readBySeller) || (!currentUser.isSeller && !c.readByBuyer)) 
-                  ? "bg-green-50" // Highlight unread messages
+                  ? "bg-green-50 shadow-sm ring-1 ring-green-100" 
                   : "bg-white border hover:bg-gray-50"
                 }`}
               >
-                {/* Display ID excerpt (In a real app, you'd fetch the user's name) */}
                 <td className="py-5 px-4 font-bold text-gray-800">
                   User_{c.id.substring(0, 8)}...
                 </td>

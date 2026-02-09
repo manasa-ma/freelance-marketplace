@@ -51,7 +51,7 @@ const Home = () => {
             <span 
               key={cat} 
               onClick={async () => {
-                const res = await axios.get(`http://localhost:5000/api/gigs?cat=${cat}`);
+                const res = await axios.get(`https://freelance-backend-a4ar.onrender.com/api/gigs?cat=${cat}`);
                 setGigs(res.data);
               }}
               className="border border-white rounded-full px-4 py-1 hover:bg-white hover:text-green-900 transition cursor-pointer uppercase"

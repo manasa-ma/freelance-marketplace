@@ -11,7 +11,7 @@ const MyGigs = () => {
   const fetchMyGigs = async () => {
     try {
       // We filter by userId (passed as a query or handled by backend)
-      const res = await axios.get(`http://localhost:5000/api/gigs?userId=${currentUser._id}`);
+      const res = await axios.get(`https://freelance-backend-a4ar.onrender.com/api/gigs?userId=${currentUser._id}`);
       setGigs(res.data);
     } catch (err) {
       console.log(err);
