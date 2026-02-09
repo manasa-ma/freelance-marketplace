@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const { Server } = require("socket.io"); // 1. Import Socket.io
+const { Server } = require("socket.io");
 const http = require("http");
 
 // Routes
@@ -15,16 +15,18 @@ const messageRoute = require("./routes/message.route");
 
 dotenv.config();
 const app = express();
-const server = http.createServer(app); // 2. Create HTTP Server
+const server = http.createServer(app);
 
-// Socket.io Setup
+// 1. Socket.io Setup with Vercel URL
 const io = new Server(server, {
   cors: {
     origin: "https://freelance-marketplace-alpha.vercel.app",
     methods: ["GET", "POST"],
+    credentials: true
   },
 });
 
+// 2. Express Middleware
 app.use(cors({ 
   origin: "https://freelance-marketplace-alpha.vercel.app", 
   credentials: true 
@@ -34,36 +36,33 @@ app.use(cookieParser());
 
 // 3. Socket.io Connection Logic
 io.on("connection", (socket) => {
-  console.log("A user connected:", socket.id);
-
   socket.on("join_room", (data) => {
     socket.join(data);
-    console.log(`User joined room: ${data}`);
   });
 
   socket.on("send_message", (data) => {
-    // This sends the message to everyone in the room except the sender
     socket.to(data.conversationId).emit("receive_message", data);
-  });
-
-  socket.on("disconnect", () => {
-    console.log("User disconnected");
   });
 });
 
-// Routes
+// 4. API Routes
+app.get("/", (req, res) => {
+  res.send("Welcome to the Freelancer API! Server is Live and Healthy.");
+});
+
 app.use("/api/auth", authRoute);
 app.use("/api/gigs", gigRoute);
 app.use("/api/orders", orderRoute);
 app.use("/api/conversations", conversationRoute);
 app.use("/api/messages", messageRoute);
 
+// 5. Database Connection
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("✅ MongoDB Connected!"))
-  .catch(err => console.log(err));
+  .catch(err => console.log("❌ DB Connection Error:", err));
 
-// 4. Change app.listen to server.listen
-const PORT = 5000;
+// 6. DYNAMIC PORT FOR DEPLOYMENT (This is the fix)
+const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
-  console.log(`🚀 Real-time Server running on port ${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });
