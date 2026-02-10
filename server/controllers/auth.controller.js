@@ -29,20 +29,19 @@ exports.login = async (req, res) => {
     if (!isCorrect) return res.status(400).send("Wrong password or username!");
 
     const token = jwt.sign(
-  { id: user._id, isSeller: user.isSeller },
-  process.env.JWT_KEY
-);
+      { id: user._id, isSeller: user.isSeller },
+      process.env.JWT_KEY
+    );
 
     const { password, ...info } = user._doc;
 
-    // Send the token inside the response body so the frontend can save it
+    // THE FIX: We must send both 'info' AND the 'token' in the response body
     res.status(200).send({ ...info, token }); 
     
   } catch (err) {
     res.status(500).send("Error logging in");
   }
 };
-
 // LOGOUT LOGIC
 exports.logout = (req, res) => {
   res.clearCookie("accessToken", {
