@@ -28,18 +28,26 @@ exports.login = async (req, res) => {
     const isCorrect = bcrypt.compareSync(req.body.password, user.password);
     if (!isCorrect) return res.status(400).send("Wrong password or username!");
 
+    // Generate the secret token
     const token = jwt.sign(
       { id: user._id, isSeller: user.isSeller },
       process.env.JWT_KEY
     );
 
+    // Remove password from the data we send back
     const { password, ...info } = user._doc;
 
-    // THE FIX: We must send both 'info' AND the 'token' in the response body
-    res.status(200).send({ ...info, token }); 
+    // THE FIX: We create a NEW object that combine user info AND the token
+    const responseData = {
+      ...info,
+      token: token
+    };
+
+    console.log("Sending to frontend:", responseData); // This will show in Render logs
+    res.status(200).send(responseData); 
     
   } catch (err) {
-    res.status(500).send("Error logging in");
+    res.status(500).send("Error logging in: " + err.message);
   }
 };
 // LOGOUT LOGIC

@@ -10,21 +10,23 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      // Send login request to backend
-      const res = await axios.post("https://freelance-backend-a4ar.onrender.com/api/auth/login", { username, password });
-      
-      // Store user data in Local Storage so the browser remembers us
-      localStorage.setItem("currentUser", JSON.stringify(res.data));
-      
-      // Go back to home page
-      navigate("/");
-      window.location.reload(); // Refresh to update Navbar
-    } catch (err) {
-      setError(err.response.data);
+  e.preventDefault();
+  try {
+    const res = await axios.post("https://freelance-backend-a4ar.onrender.com/api/auth/login", { username, password });
+    
+    console.log("Data received from server:", res.data); // <--- ADD THIS DEBUG LINE
+
+    if(res.data.token) {
+       localStorage.setItem("currentUser", JSON.stringify(res.data));
+       navigate("/");
+       window.location.reload();
+    } else {
+       alert("Error: Server did not send a security token!");
     }
-  };
+  } catch (err) {
+    setError(err.response?.data || "Login failed");
+  }
+};
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50 px-5">
