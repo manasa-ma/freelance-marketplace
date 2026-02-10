@@ -46,7 +46,10 @@ const Gig = () => {
   // SAFE MOCK PAYMENT LOGIC (Perfect for Internship/Portfolio)
 const handlePaymentSimulation = async () => {
   const user = JSON.parse(localStorage.getItem("currentUser"));
-  if (!user || !user.token) return navigate("/login"); // Check if token exists
+   console.log("Current User Data:", user);
+  if (!user || !user.token) {
+    console.log("Redirecting: Token missing!");
+    return navigate("/login"); }// Check if token exists
 
   setIsPaying(true);
 
