@@ -34,11 +34,10 @@ exports.login = async (req, res) => {
     );
 
     const { password, ...info } = user._doc;
-    res
-      .cookie("accessToken", token, { httpOnly: true, secure: true,      // Required for cross-site cookies
-  sameSite: "none", })
-      .status(200)
-      .send(info);
+
+    // Send the token inside the response body so the frontend can save it
+    res.status(200).send({ ...info, token }); 
+    
   } catch (err) {
     res.status(500).send("Error logging in");
   }

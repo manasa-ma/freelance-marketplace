@@ -44,34 +44,33 @@ const Gig = () => {
   };
 
   // SAFE MOCK PAYMENT LOGIC (Perfect for Internship/Portfolio)
-  const handlePaymentSimulation = async () => {
-    if (!currentUser) {
-      alert("Please login to purchase a service");
-      return navigate("/login");
+const handlePaymentSimulation = async () => {
+  // 1. Get user data (which now contains the token) from localStorage
+  const user = JSON.parse(localStorage.getItem("currentUser"));
+  if (!user) return navigate("/login");
+
+  setIsPaying(true);
+
+  setTimeout(async () => {
+    try {
+      await axios.post(
+        `https://freelance-backend-a4ar.onrender.com/api/orders/${id}`, 
+        {}, 
+        { 
+          // 2. Send the token in the headers
+          headers: { token: user.token } 
+        }
+      );
+      
+      setIsPaying(false);
+      alert("🎉 Payment Successful!");
+      navigate("/orders");
+    } catch (err) {
+      setIsPaying(false);
+      alert("Error: " + (err.response?.data || "Authentication Failed"));
     }
-
-    setIsPaying(true); // Start the loading state
-
-    // 1. Simulate a bank processing delay (2 seconds)
-    setTimeout(async () => {
-      try {
-        // 2. Call the backend to create the order
-        await axios.post(
-          `https://freelance-backend-a4ar.onrender.com/api/orders/${id}`, 
-          {}, 
-          { withCredentials: true }
-        );
-        
-        setIsPaying(false);
-        alert("🎉 Payment Successful! Your order has been placed.");
-        navigate("/orders"); // Redirect to orders dashboard
-      } catch (err) {
-        setIsPaying(false);
-        alert("Payment Error: " + (err.response?.data || "Could not complete transaction"));
-      }
-    }, 2000); 
-  };
-
+  }, 2000); 
+};
   if (loading) return <div className="pt-40 text-center text-gray-500 animate-pulse">Loading gig details...</div>;
 
   return (
