@@ -31,7 +31,7 @@ const io = new Server(server, {
 app.use(cors({ 
   origin: "https://freelance-marketplace-alpha.vercel.app", 
   credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allow all methods
+  //methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allow all methods
   allowedHeaders: ["Content-Type", "token"] // <--- THIS IS THE FIX: Allow our custom header
 }));
 app.use(express.json());

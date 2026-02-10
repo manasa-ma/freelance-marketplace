@@ -29,9 +29,9 @@ exports.login = async (req, res) => {
     if (!isCorrect) return res.status(400).send("Wrong password or username!");
 
     const token = jwt.sign(
-      { id: user._id, isSeller: user.isSeller },
-      process.env.JWT_KEY
-    );
+  { id: user._id, isSeller: user.isSeller },
+  process.env.JWT_KEY
+);
 
     const { password, ...info } = user._doc;
 

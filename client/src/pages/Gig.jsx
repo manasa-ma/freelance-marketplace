@@ -45,9 +45,8 @@ const Gig = () => {
 
   // SAFE MOCK PAYMENT LOGIC (Perfect for Internship/Portfolio)
 const handlePaymentSimulation = async () => {
-  // 1. Get user data (which now contains the token) from localStorage
   const user = JSON.parse(localStorage.getItem("currentUser"));
-  if (!user) return navigate("/login");
+  if (!user || !user.token) return navigate("/login"); // Check if token exists
 
   setIsPaying(true);
 
@@ -57,8 +56,7 @@ const handlePaymentSimulation = async () => {
         `https://freelance-backend-a4ar.onrender.com/api/orders/${id}`, 
         {}, 
         { 
-          // 2. Send the token in the headers
-          headers: { token: user.token } 
+          headers: { token: user.token } // <--- MUST SEND THIS
         }
       );
       
@@ -67,10 +65,12 @@ const handlePaymentSimulation = async () => {
       navigate("/orders");
     } catch (err) {
       setIsPaying(false);
-      alert("Error: " + (err.response?.data || "Authentication Failed"));
+      alert("Error: " + (err.response?.data || "Auth Failed"));
     }
   }, 2000); 
 };
+
+
   if (loading) return <div className="pt-40 text-center text-gray-500 animate-pulse">Loading gig details...</div>;
 
   return (
