@@ -7,5 +7,6 @@ const router = express.Router();
 router.post("/:gigId", verifyToken, createOrder);
 router.get("/", verifyToken, getOrders);
 router.delete("/:id", verifyToken, deleteOrder); // <--- THIS LINE IS CRUCIAL
+router.put("/:id/status", verifyToken, updateStatus);
 
 module.exports = router;

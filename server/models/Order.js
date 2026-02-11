@@ -8,7 +8,15 @@ const orderSchema = new mongoose.Schema({
   sellerId: { type: String, required: true },
   buyerId: { type: String, required: true },
   isCompleted: { type: Boolean, default: false },
-  payment_intent: { type: String, required: false }, // For Stripe later
+  
+  // NEW FIELD: Tracking the progress of the order
+  status: {
+    type: String,
+    enum: ["Pending", "In Progress", "Delivered", "Completed"],
+    default: "Pending",
+  },
+  
+  payment_intent: { type: String, required: false },
 }, { timestamps: true });
 
 module.exports = mongoose.model('Order', orderSchema);

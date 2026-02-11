@@ -25,6 +25,17 @@ exports.createOrder = async (req, res) => {
   }
 };
 
+// 2. NEW FUNCTION: Change the status of an order
+exports.updateStatus = async (req, res) => {
+  try {
+    const { status } = req.body;
+    await Order.findByIdAndUpdate(req.params.id, { $set: { status } });
+    res.status(200).send("Status updated!");
+  } catch (err) {
+    res.status(500).send("Error updating status");
+  }
+};
+
 exports.getOrders = async (req, res) => {
   try {
     // Find orders where user is buyer OR seller
@@ -55,5 +66,22 @@ exports.deleteOrder = async (req, res) => {
     res.status(200).send("Order cancelled successfully!");
   } catch (err) {
     res.status(500).send("Error: " + err.message);
+  }
+};
+exports.updateStatus = async (req, res) => {
+  try {
+    const { status } = req.body;
+    const order = await Order.findById(req.params.id);
+
+    if (!order) return res.status(404).send("Order not found!");
+
+    // Basic logic:
+    // 1. Seller can move to "In Progress" or "Delivered"
+    // 2. Buyer can move to "Completed"
+    await Order.findByIdAndUpdate(req.params.id, { $set: { status: status } });
+
+    res.status(200).send("Status updated!");
+  } catch (err) {
+    res.status(500).send("Error updating status");
   }
 };
