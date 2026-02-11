@@ -46,10 +46,12 @@ const Gig = () => {
   // SAFE MOCK PAYMENT LOGIC (Perfect for Internship/Portfolio)
 const handlePaymentSimulation = async () => {
   const user = JSON.parse(localStorage.getItem("currentUser"));
-   console.log("Current User Data:", user);
+
+  // Check if user and token exist
   if (!user || !user.token) {
-    console.log("Redirecting: Token missing!");
-    return navigate("/login"); }// Check if token exists
+    alert("Token missing. Please login again.");
+    return navigate("/login");
+  }
 
   setIsPaying(true);
 
@@ -58,9 +60,7 @@ const handlePaymentSimulation = async () => {
       await axios.post(
         `https://freelance-backend-a4ar.onrender.com/api/orders/${id}`, 
         {}, 
-        { 
-          headers: { token: user.token } // <--- MUST SEND THIS
-        }
+        { headers: { token: user.token } } // Send the token in headers
       );
       
       setIsPaying(false);
@@ -68,7 +68,7 @@ const handlePaymentSimulation = async () => {
       navigate("/orders");
     } catch (err) {
       setIsPaying(false);
-      alert("Error: " + (err.response?.data || "Auth Failed"));
+      alert("Error: " + (err.response?.data || "Authentication error"));
     }
   }, 2000); 
 };

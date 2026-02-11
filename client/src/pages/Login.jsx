@@ -14,20 +14,15 @@ const Login = () => {
   try {
     const res = await axios.post("https://freelance-backend-a4ar.onrender.com/api/auth/login", { username, password });
     
-    console.log("Data received from server:", res.data); // <--- ADD THIS DEBUG LINE
-
-    if(res.data.token) {
-       localStorage.setItem("currentUser", JSON.stringify(res.data));
-       navigate("/");
-       window.location.reload();
-    } else {
-       alert("Error: Server did not send a security token!");
-    }
+    // Save the data (which now includes the token)
+    localStorage.setItem("currentUser", JSON.stringify(res.data));
+    
+    navigate("/");
+    window.location.reload(); // Refresh to update the Navbar
   } catch (err) {
     setError(err.response?.data || "Login failed");
   }
 };
-
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50 px-5">
       <form onSubmit={handleSubmit} className="w-full max-w-md bg-white p-10 rounded-lg shadow-lg flex flex-col gap-6">

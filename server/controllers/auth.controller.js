@@ -22,32 +22,27 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const user = await User.findOne({ username: req.body.username });
-
     if (!user) return res.status(404).send("User not found!");
 
     const isCorrect = bcrypt.compareSync(req.body.password, user.password);
     if (!isCorrect) return res.status(400).send("Wrong password or username!");
 
-    // Generate the secret token
     const token = jwt.sign(
       { id: user._id, isSeller: user.isSeller },
       process.env.JWT_KEY
     );
 
-    // Remove password from the data we send back
     const { password, ...info } = user._doc;
 
-    // THE FIX: We create a NEW object that combine user info AND the token
+    // THE PERMANENT FIX: Combine user info and token into ONE object
     const responseData = {
       ...info,
-      token: token
+      token: token  // This MUST be named exactly 'token'
     };
 
-    console.log("Sending to frontend:", responseData); // This will show in Render logs
-    res.status(200).send(responseData); 
-    
+    res.status(200).send(responseData);
   } catch (err) {
-    res.status(500).send("Error logging in: " + err.message);
+    res.status(500).send("Error logging in");
   }
 };
 // LOGOUT LOGIC
