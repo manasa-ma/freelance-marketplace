@@ -5,33 +5,41 @@ import { Mail, Trash2 } from "lucide-react"; // Added Trash2 icon
 const Orders = () => {
   const [orders, setOrders] = useState([]);
 
-  const fetchOrders = async () => {
+ const fetchOrders = async () => {
     try {
-      const res = await axios.get("https://freelance-backend-a4ar.onrender.com/api/orders", { withCredentials: true });
+      const user = JSON.parse(localStorage.getItem("currentUser"));
+      
+      // THE FIX: We must send the token in the headers
+      const res = await axios.get("https://freelance-backend-a4ar.onrender.com/api/orders", {
+        headers: { token: user.token } 
+      });
+      
       setOrders(res.data);
     } catch (err) {
-      console.log(err);
+      console.log("Error fetching orders:", err);
     }
   };
-
   useEffect(() => {
     fetchOrders();
   }, []);
 
   // NEW FUNCTION: Cancel/Delete Order
   const handleCancel = async (id) => {
-  if (window.confirm("Are you sure you want to cancel this order?")) {
-    try {
-      await axios.delete(`https://freelance-backend-a4ar.onrender.com/api/orders/${id}`, {
-        withCredentials: true,
-      });
-      alert("Order cancelled!");
-      fetchOrders(); // Call your function that gets the list of orders
-    } catch (err) {
-      alert("Error: " + (err.response?.data || "Could not cancel"));
+    if (window.confirm("Are you sure you want to cancel this order?")) {
+      try {
+        const user = JSON.parse(localStorage.getItem("currentUser"));
+        
+        await axios.delete(`https://freelance-backend-a4ar.onrender.com/api/orders/${id}`, {
+          headers: { token: user.token } // <--- Send the token here too
+        });
+        
+        alert("Order cancelled!");
+        fetchOrders(); 
+      } catch (err) {
+        alert("Error: " + (err.response?.data || "Could not cancel"));
+      }
     }
-  }
-};
+  };
 
   return (
     <div className="pt-32 pb-20 px-10 max-w-7xl mx-auto min-h-[80vh]">

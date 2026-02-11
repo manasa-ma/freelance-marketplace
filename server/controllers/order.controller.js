@@ -27,8 +27,12 @@ exports.createOrder = async (req, res) => {
 
 exports.getOrders = async (req, res) => {
   try {
+    // Find orders where user is buyer OR seller
     const orders = await Order.find({
-      ...(req.isSeller ? { sellerId: req.userId } : { buyerId: req.userId }),
+      $or: [
+        { sellerId: req.userId },
+        { buyerId: req.userId }
+      ]
     });
     res.status(200).send(orders);
   } catch (err) {
