@@ -34,13 +34,10 @@ exports.login = async (req, res) => {
 
     const { password, ...info } = user._doc;
 
-    // THE PERMANENT FIX: Combine user info and token into ONE object
-    const responseData = {
-      ...info,
-      token: token  // This MUST be named exactly 'token'
-    };
-
-    res.status(200).send(responseData);
+    // --- THE PERMANENT FIX ---
+    // We send the token directly in the response body
+    res.status(200).send({ ...info, token }); 
+    
   } catch (err) {
     res.status(500).send("Error logging in");
   }
