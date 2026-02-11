@@ -57,15 +57,15 @@ exports.deleteOrder = async (req, res) => {
     const order = await Order.findById(req.params.id);
     if (!order) return res.status(404).send("Order not found!");
 
-    // Check if the person deleting is the Buyer or the Seller of this order
+    // Check if user is the buyer or seller
     if (order.buyerId !== req.userId && order.sellerId !== req.userId) {
-      return res.status(403).send("You can only cancel your own orders!");
+      return res.status(403).send("You can only delete your own orders!");
     }
 
     await Order.findByIdAndDelete(req.params.id);
-    res.status(200).send("Order cancelled successfully!");
+    res.status(200).send("Order deleted successfully!");
   } catch (err) {
-    res.status(500).send("Error: " + err.message);
+    res.status(500).send("Error deleting order");
   }
 };
 exports.updateStatus = async (req, res) => {
